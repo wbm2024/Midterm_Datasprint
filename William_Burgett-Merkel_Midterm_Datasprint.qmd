@@ -1,0 +1,32 @@
+---
+title: "William_Burgett-Merkel_Datasprint"
+format: gfm
+---
+**Project: Midterm Datasprint**
+**Name: William Burgett-Merkel**
+
+
+```{r}
+
+#| label: setup
+#| include: false
+
+library(tidyverse)
+library(knitr)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Get the data and then filter out any rows that do not have temperature values.
+
+```{r}
+numbats <- read_csv("data/numbats.csv")
+
+numbats_filtered<-numbats |> 
+  filter(!is.na(tmax))
+```
+Plot the temperature
+```{r}
+
+```
+
