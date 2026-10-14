@@ -57,8 +57,8 @@ geom_point(data = numbats_seasons,
            y=decimalLatitude,
            color=Season))+
 
-  coord_quickmap(xlim=c(115, 120),
-                 ylim=c(-35,-30))
+  coord_quickmap(xlim=c(110, 125),
+                 ylim=c(-40,-25))
 ```
 
 Get the mean min and max temperature. Then plot the observations with the tmax as the x and tmin as y to see the overall days when the events occurred.
