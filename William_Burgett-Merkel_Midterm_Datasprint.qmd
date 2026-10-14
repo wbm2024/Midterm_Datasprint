@@ -5,7 +5,10 @@ format: gfm
 **Project: Midterm Datasprint**
 **Name: William Burgett-Merkel**
 
+**Introduction**
 
+
+**Analysis**
 ```{r}
 
 #| label: setup
@@ -13,20 +16,123 @@ format: gfm
 
 library(tidyverse)
 library(knitr)
+library(sf)
+library(tmap)
 
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Get the data and then filter out any rows that do not have temperature values.
+Get the data and then filter out any rows that do not have temperature values. Then create a column for what season the month occurred in based on Australian Climate. Finally plot the sightings with temperature data based on location in Australia.
 
 ```{r}
 numbats <- read_csv("data/numbats.csv")
 
 numbats_filtered<-numbats |> 
   filter(!is.na(tmax))
-```
-Plot the temperature
-```{r}
 
+numbats_filtered<-numbats_filtered |> 
+  filter(!is.na(tmin))
+
+kable(head(numbats_filtered))
+
+numbats_seasons<-numbats_filtered
+  seasons<- c(
+    "Dec" = "Summer", "Jan" = "Summer", "Feb" = "Summer",
+    "Mar" = "Fall", "Apr" = "Fall", "May" = "Fall",
+    "Jun" = "Winter", "Jul" = "Winter", "Aug" = "Winter",
+    "Sep" = "Spring", "Oct" = "Spring", "Nov" = "Winter"
+  )
+  numbats_seasons$Season<-seasons[numbats_filtered$month]
+
+australia_map <- map_data("world", region = "Australia")
+
+ggplot()+
+geom_polygon(data=australia_map,
+              aes(x = long,
+                  y = lat,
+                  group = group))+
+
+geom_point(data = numbats_seasons,
+       aes(x=decimalLongitude,
+           y=decimalLatitude,
+           color=Season))+
+
+  coord_quickmap(xlim=c(115, 120),
+                 ylim=c(-35,-30))
+```
+
+Get the mean min and max temperature. Then plot the observations with the tmax as the x and tmin as y to see the overall days when the events occurred.
+
+```{r}
+numbats_mean_tmin<-numbats_filtered |> 
+  summarize(mean_tmin=mean(tmin),
+            mean_tmax=mean(tmax))
+
+ggplot(numbats_filtered,
+       aes(x=tmax, 
+           y=tmin))+
+  geom_line(size=.5)+
+  geom_point(size=.75)
+```
+
+Group the months into seasons, then plot the observations by season.
+
+```{r}
+ggplot(numbats_seasons,
+       aes(x=tmin, 
+           y=tmax,
+           group=Season,
+           color=Season))+
+  geom_line(size=.5)+
+  geom_point(size=.75)+
+  labs(title="Temperature of Each Numbat Sighting Sorted by Season",
+     x="Minimum Temperature (°C)",
+     y="Maximum Temperature (°C)",
+     color="Season")
+  
+ggplot(numbats_seasons[numbats_seasons$Season == "Winter", ],
+       aes(x=tmin, 
+           y=tmax,
+           color=factor(year)
+           ))+
+  geom_line(size=.5)+
+  geom_point(size=.75)+
+   labs(title="Temperature of Each Numbat Sighting in Winter",
+     x="Minumum Temperature (°C)",
+     y="Maximum Temperature (°C)",
+     color="Year")
+
+ggplot(numbats_seasons[numbats_seasons$Season == "Spring", ],
+       aes(x=tmin, 
+           y=tmax,
+           color=factor(year)))+
+  geom_line(size=.5)+
+  geom_point(size=.75)+
+  labs(title="Temperature of Each Numbat Sighting in Spring",
+     x="Minimum Temperature (°C)",
+     y="Maximum Temperature (°C)",
+     color="Year")
+
+ggplot(numbats_seasons[numbats_seasons$Season == "Summer", ],
+       aes(x=tmin, 
+           y=tmax,
+           color=factor(year)))+
+  geom_line(size=.5)+
+  geom_point(size=.75)+
+  labs(title="Temperature of Each Numbat Sighting in Summer",
+     x="Minimum Temperature (°C)",
+     y="Maximum Temperature (°C)",
+     color="Year")
+
+ggplot(numbats_seasons[numbats_seasons$Season == "Fall", ],
+       aes(x=tmin, 
+           y=tmax,
+           color=factor(year)))+
+  geom_line(size=.5)+
+  geom_point(size=.75)+
+labs(title="Temperature of Each Numbat Sighting in Fall",
+     x="Minimum Temperature (°C)",
+     y="Maximum Temperature (°C)",
+     color="Year")
 ```
 
