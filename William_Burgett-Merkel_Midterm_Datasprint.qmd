@@ -6,6 +6,7 @@ format: gfm
 **Name: William Burgett-Merkel**
 
 **Introduction**
+
 This dataset is the observations of Numbats in Australia. The reason this dataset exists is because Numbats are an endangered species, and tracking observations is important to ensure their habitat is protected. The main variables are the species name, latitude, longitude, the date and time of the observations, the day of the week the observation occured, the maximum and minimum temperature in celsius of the day the Numbat was observed, and precipitation that day in millimeters. 
 
 I wanted to answer 3 questions from this dataset.
@@ -14,6 +15,7 @@ I wanted to answer 3 questions from this dataset.
 3. Are there more cool or warm day observations?
 
 **Analysis**
+
 ```{r}
 
 #| label: setup
@@ -163,6 +165,7 @@ labs(title="Temperature of Each Numbat Sighting in Fall",
      color="Year")
 ```
 **Discussion**
+
 1. All observations with temperature data points are tightly packed in a small area in Western Australia. This is likely because there is a more official reporting methodology in this location.
 
 2. As I stated in #1, spring and winter were the most frequent season for observations in sightings that had temperature data. However, when looking at all sightings (as long as they had dates), winter and summer had the most observations with 235 and 217 sightings each, with spring and fall far behind them with 71 and 29 respectively.
@@ -170,6 +173,7 @@ labs(title="Temperature of Each Numbat Sighting in Fall",
 3. There are more observations in cooler days, as there is a larger clump of data in lower tmin and tmax values. This correlates with the fact that winter and spring had the most observations.
 
 **Tie to class**
+
 In this exercise, I showed I can handle datasets and orangize them to get results. I also showed I can create graphs and maps with relevant data, including latitude and longitude. Furthermore I learned how to group data to create a new column in a dataset. Lastly, I practiced skills involving making plots so that each line in a line graph was easy to interpret using color schemes.
 
 I learned how to wrangle messy data by filtering and grouping data. I also continued to practice creating line charts and how to correctly give each variable a color to improve the plot visually. Lastly I created tabular data that is easy to interpret.
